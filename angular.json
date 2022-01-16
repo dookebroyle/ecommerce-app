@@ -27,7 +27,9 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "node_modules/boostrap/dist/css/boostrap.min.css",
+              "node_modules/@fortawesome/fontawsesome-free/css/all.min"
             ],
             "scripts": []
           },

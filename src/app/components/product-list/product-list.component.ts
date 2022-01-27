@@ -55,6 +55,7 @@ export class ProductListComponent implements OnInit {
      this.previousKeyword = theKeyword;
 
      console.log(`keyword=${theKeyword}, thePageNumber="${this.thePageNumber}`)
+
     // now search for the products using keyword
     this.productService.searchProductsPaginate(this.thePageNumber - 1,
                                                 this.thePageSize,

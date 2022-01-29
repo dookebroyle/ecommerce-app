@@ -15,21 +15,17 @@ export class CartService {
   constructor() { }
 
   addToCart(theCartItem: CartItem) {
-
     // check if we already have the item in our cart
     let alreadyExistsInCart: boolean = false;
     let existingCartItem: CartItem = undefined;
-
     if (this.cartItems.length > 0) {
       // find the item in the cart based on item id
 
-      existingCartItem = this.cartItems.find( tempCartItem => {
+      existingCartItem = this.cartItems.find( tempCartItem =>
         tempCartItem.id === theCartItem.id
-      })
-      // check if we found it
+      )
       alreadyExistsInCart = (existingCartItem != undefined);
     }
-
     if (alreadyExistsInCart) {
       // increment the quantity
       existingCartItem.quantity++;
@@ -38,7 +34,6 @@ export class CartService {
       // just add the item to the array
       this.cartItems.push(theCartItem);
     }
-
     // compute cart total price and total quantity
     this.computeCartTotals();
   }
@@ -50,9 +45,6 @@ export class CartService {
       totalPriceValue += currentCartItem.quantity * currentCartItem.unitPrice;
       totalQuantityValue += currentCartItem.quantity;
     }
-
-
-
     // publish the new values ... all subscribers will receive the new data
     this.totalPrice.next(totalPriceValue);
     this.totalQuantity.next(totalQuantityValue);
@@ -72,5 +64,26 @@ export class CartService {
 
     console.log(`totalPrice: ${totalPriceValue.toFixed(2)}, totalQuantity: ${totalQuantityValue}`);
     console.log('---------------');
+  }
+
+  decrementQuantity(theCartItem: CartItem) {
+    theCartItem.quantity--
+
+    if(theCartItem.quantity === 0) {
+      this.remove(theCartItem)
+    }
+    else {
+      this.computeCartTotals();
+    }
+
+  }
+  remove(theCartItem: CartItem) {
+    //get index of item in array
+    const itemIndex = this.cartItems.findIndex( tempCartItem => tempCartItem.id === theCartItem.id )
+    //if found, remove item from array at given index
+    if(itemIndex > -1) {
+      this.cartItems.splice(itemIndex, 1)
+      this.computeCartTotals()
+    }
   }
 }

@@ -31,6 +31,8 @@ export class CheckoutComponent implements OnInit {
   shippingAddressStates: State[] = [];
   billingAddressStates: State[] = [];
 
+  storage: Storage = sessionStorage;
+
   constructor(private formBuilder: FormBuilder,
               private ShopFormService: ShopFormService,
               private cartService: CartService,
@@ -40,6 +42,9 @@ export class CheckoutComponent implements OnInit {
   ngOnInit(): void {
 
     this.reviewCartDetails();
+
+    // read the user's email address from browser storage
+    const theEmail = JSON.parse(this.storage.getItem('userEmail'));
 
     this.checkoutFormGroup = this.formBuilder.group({
       customer: this.formBuilder.group({
@@ -53,7 +58,7 @@ export class CheckoutComponent implements OnInit {
                                Validators.minLength(2),
                                ShopValidators.notOnlyWhitespace]),
 
-        email: new FormControl('',
+        email: new FormControl(theEmail,
                               [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')])
       }),
       shippingAddress: this.formBuilder.group({
@@ -162,14 +167,14 @@ export class CheckoutComponent implements OnInit {
             .setValue(this.checkoutFormGroup.controls['shippingAddress'].value);
 
       // bug fix for states
-      this['billingAddress'].states = this['shippingAddress'].states;
+      this.billingAddressStates = this.shippingAddressStates;
 
     }
     else {
       this.checkoutFormGroup.controls['billingAddress'].reset();
 
       // bug fix for states
-      this['billingAddress'].states = [];
+      this.billingAddressStates = [];
     }
 
   }
@@ -296,10 +301,10 @@ export class CheckoutComponent implements OnInit {
       data => {
 
         if (formGroupName === 'shippingAddress') {
-          this['shippingAddress'].states = data;
+          this.shippingAddressStates = data;
         }
         else {
-          this['billingAddress'].states = data;
+          this.billingAddressStates = data;
         }
 
         // select first item by default

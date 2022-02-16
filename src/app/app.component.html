@@ -22,7 +22,7 @@
       <div class="section-content section-content-p30">
         <div class="container-fluid">
           <div class="header-wrap">
-
+              <h1 class="site-title">Doyle's Shop</h1>
               <app-search></app-search>
               <app-login-status></app-login-status>
               <app-cart-status></app-cart-status>
@@ -35,8 +35,9 @@
     <!-- END HEADER DESKTOP-->
 
     <!-- MAIN CONTENT-->
-    <router-outlet></router-outlet>
-
+    <div class="parallax">
+    <router-outlet class="parallax"></router-outlet>
+    </div>
     <!-- END PAGE CONTAINER-->
 
     <footer>

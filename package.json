@@ -28,6 +28,7 @@
     "stripe": "^8.202.0",
     "tslib": "^2.3.0",
     "webpack": "^5.69.0",
+    "webpack-dev-server": "^4.7.4",
     "webpack-sources": "^3.2.3",
     "zone.js": "~0.11.4"
   },
